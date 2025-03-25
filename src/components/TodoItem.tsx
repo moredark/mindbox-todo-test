@@ -30,7 +30,6 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }) 
       <CheckBox
         checked={todo.completed}
         onChange={() => onToggle(todo.id)}
-        toggle={false}
         data-testid={`todo-checkbox-${todo.id}`}
       />
       <TodoText 

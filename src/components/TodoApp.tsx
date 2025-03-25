@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Box, Heading } from 'grommet';
 import { TodoList } from './TodoList';
 import { TodoInput } from './TodoInput';
@@ -12,6 +12,7 @@ import { Todo } from '../types';
 export const TodoApp: React.FC = () => {
   const {
     todos,
+    filteredTodos,
     filter,
     activeTodoCount,
     setFilter,
@@ -30,21 +31,6 @@ export const TodoApp: React.FC = () => {
   );
 
   const hasCompletedTodos = todos.some((todo: Todo) => todo.completed);
-  
-  const filteredTodos = useMemo(() => {
-    return todos.filter((todo) => {
-      switch (filter) {
-        case 'active':
-          return !todo.completed;
-        case 'completed':
-          return todo.completed;
-        case 'all':
-        default:
-          return true;
-      }
-    });
-  }, [todos, filter]);
-
   const isEmpty = todos.length === 0;
 
   return (

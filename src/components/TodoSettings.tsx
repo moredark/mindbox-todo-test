@@ -19,7 +19,6 @@ export const TodoSettings: React.FC<TodoSettingsProps> = ({ settings, onToggleAu
         icon={<Configure color="text-strong" />}
         onClick={() => setShowSettings(!showSettings)}
         data-testid="settings-button"
-
       />
 
       {showSettings && settingsButtonRef.current && (

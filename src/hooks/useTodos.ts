@@ -1,15 +1,13 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect,  useMemo } from 'react';
 import { Todo, FilterType } from '../types';
 
 const STORAGE_KEY = 'todos';
 
 export const useTodos = () => {
-  // Загрузка задач из localStorage при инициализации
   const loadTodos = (): Todo[] => {
     const storedTodos = localStorage.getItem(STORAGE_KEY);
     if (storedTodos) {
       try {
-        // Преобразуем строки дат обратно в объекты Date
         return JSON.parse(storedTodos, (key, value) => {
           if (key === 'createdAt') {
             return new Date(value);
@@ -27,51 +25,53 @@ export const useTodos = () => {
   const [todos, setTodos] = useState<Todo[]>(loadTodos);
   const [filter, setFilter] = useState<FilterType>('all');
 
-  // Сохранение задач в localStorage при каждом изменении
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
   }, [todos]);
 
-  // Добавление новой задачи
   const addTodo = (text: string) => {
     if (text.trim() === '') return;
-    
+
     const newTodo: Todo = {
       id: Date.now().toString(),
       text: text.trim(),
       completed: false,
       createdAt: new Date()
     };
-    
+
     setTodos(prevTodos => [...prevTodos, newTodo]);
   };
 
-  // Переключение статуса задачи (выполнена/не выполнена)
-  const toggleTodo = useCallback((id: string) => {
+  const toggleTodo = (id: string) => {
     setTodos(prevTodos =>
-      prevTodos.map(todo => 
+      prevTodos.map(todo =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
       )
     );
-  }, []);
-
-  // Удаление задачи
-  const deleteTodo = useCallback((id: string) => {
-    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
-  }, []);
-
-  // Очистка всех выполненных задач
-  const clearCompleted = () => {
-    setTodos(prevTodos => prevTodos.filter(todo => !todo.completed));
   };
 
-  // Количество незавершенных задач
+  const deleteTodo = (id: string) => {
+    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
+  };
+
+  const clearCompleted = () => {
+    setTodos(prevTodos => prevTodos.filter(todo => !todo.completed));
+  }
+
   const activeTodoCount = useMemo(() => {
     return todos.filter(todo => !todo.completed).length;
   }, [todos]);
 
+  const filteredTodos = useMemo(() => {
+    if (filter === 'all') return todos;
+    return todos.filter(todo =>
+      filter === 'active' ? !todo.completed : todo.completed
+    );
+  }, [todos, filter]);
+
   return {
     todos,
+    filteredTodos,
     filter,
     activeTodoCount,
     setFilter,
