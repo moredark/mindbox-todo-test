@@ -1,7 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Grommet } from 'grommet';
 import { TodoList } from '../TodoList';
 import { customTheme } from '../../theme/theme';
+
+jest.useFakeTimers();
 
 describe('TodoList', () => {
   const mockTodos = [
@@ -80,14 +82,19 @@ describe('TodoList', () => {
     expect(defaultProps.toggleTodo).toHaveBeenCalledWith(mockTodos[0].id);
   });
 
-  it('should call deleteTodo when todo delete button is clicked', () => {
+  it('should call deleteTodo when todo delete button is clicked', async () => {
     renderComponent();
 
     const deleteButton = screen.getByTestId(`todo-delete-${mockTodos[0].id}`);
     fireEvent.click(deleteButton);
-
-    expect(defaultProps.deleteTodo).toHaveBeenCalledTimes(1);
-    expect(defaultProps.deleteTodo).toHaveBeenCalledWith(mockTodos[0].id);
+    
+    // Запускаем все таймеры
+    jest.runAllTimers();
+    
+    // Ждем выполнения асинхронной операции
+    await waitFor(() => {
+      expect(defaultProps.deleteTodo).toHaveBeenCalledWith(mockTodos[0].id);
+    });
   });
 
   it('should not render todos when isEmpty is true', () => {

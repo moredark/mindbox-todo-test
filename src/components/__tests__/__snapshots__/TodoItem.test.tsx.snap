@@ -6,7 +6,7 @@ exports[`TodoItem should match snapshot for completed todo 1`] = `
     class="StyledGrommet-sc-19lkkz7-0 lioFhE"
   >
     <div
-      class="StyledBox-sc-13pk1d4-0 dKnYnC"
+      class="StyledBox-sc-13pk1d4-0 dKnYnC sc-VHjGu jdxga-D"
     >
       <label
         class="StyledCheckBox__StyledCheckBoxContainer-sc-1dbk5ju-1 ibppuy"
@@ -37,7 +37,7 @@ exports[`TodoItem should match snapshot for completed todo 1`] = `
         </div>
       </label>
       <span
-        class="StyledText-sc-1sadyjn-0 eZKRqX sc-VHjGu bgrlAP"
+        class="StyledText-sc-1sadyjn-0 eZKRqX sc-gnOvAp eELmxq"
         data-testid="todo-text-1"
       >
         Test todo
@@ -71,7 +71,7 @@ exports[`TodoItem should match snapshot for incomplete todo 1`] = `
     class="StyledGrommet-sc-19lkkz7-0 lioFhE"
   >
     <div
-      class="StyledBox-sc-13pk1d4-0 dKnYnC"
+      class="StyledBox-sc-13pk1d4-0 dKnYnC sc-VHjGu jdxga-D"
     >
       <label
         class="StyledCheckBox__StyledCheckBoxContainer-sc-1dbk5ju-1 ibppuy"
@@ -90,7 +90,7 @@ exports[`TodoItem should match snapshot for incomplete todo 1`] = `
         </div>
       </label>
       <span
-        class="StyledText-sc-1sadyjn-0 iugIKr sc-VHjGu debJHN"
+        class="StyledText-sc-1sadyjn-0 iugIKr sc-gnOvAp gvMwTs"
         data-testid="todo-text-1"
       >
         Test todo

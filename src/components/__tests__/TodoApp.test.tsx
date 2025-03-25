@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { TodoApp } from '../TodoApp';
 import { useTodos } from '../../hooks/useTodos';
 import { useSettings } from '../../hooks/useSettings';
@@ -9,6 +9,8 @@ import { Grommet } from 'grommet';
 jest.mock('../../hooks/useTodos');
 jest.mock('../../hooks/useSettings');
 jest.mock('../../hooks/useAutoDeleteCompleted');
+
+jest.useFakeTimers();
 
 const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <Grommet>
@@ -50,7 +52,7 @@ describe('TodoApp', () => {
     render(<TodoApp />, { wrapper: TestWrapper });
 
     expect(screen.getByTestId('todo-list')).toBeInTheDocument();
-    expect(screen.getByText('ToDo')).toBeInTheDocument();
+    expect(screen.getByText('Todo app')).toBeInTheDocument();
   });
 
   test('should handle adding new todo', () => {
@@ -72,13 +74,17 @@ describe('TodoApp', () => {
     expect(mockUseTodos.toggleTodo).toHaveBeenCalledWith('1');
   });
 
-  test('should handle deleting todo', () => {
+  test('should handle deleting todo', async () => {
     render(<TodoApp />, { wrapper: TestWrapper });
 
     const deleteButton = screen.getByTestId('todo-delete-1');
     fireEvent.click(deleteButton);
-
-    expect(mockUseTodos.deleteTodo).toHaveBeenCalledWith('1');
+    
+    jest.runAllTimers();
+    
+    await waitFor(() => {
+      expect(mockUseTodos.deleteTodo).toHaveBeenCalledWith('1');
+    });
   });
 
   test('should handle filter change', () => {
