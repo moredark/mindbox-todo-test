@@ -1,8 +1,9 @@
-import React from 'react';
-import { Box, Button, Text } from 'grommet';
+import React, { useCallback } from 'react';
+import { Box, Button, Text, ResponsiveContext } from 'grommet';
 import { FilterButton } from '../common/FilterButton';
 import { formatTaskCount } from '../../utils/formatters';
 import { TodoFilterProps } from './types';
+import { FilterType } from '../../types';
 
 export const TodoFilter: React.FC<TodoFilterProps> = ({
     activeFilter,
@@ -11,10 +12,23 @@ export const TodoFilter: React.FC<TodoFilterProps> = ({
     onClearCompleted,
     hasCompleted
 }) => {
+    const size = React.useContext(ResponsiveContext);
+    const isMobile = size === 'small';
+
+    const handleFilterChange = useCallback((filter: FilterType) => {
+        onFilterChange(filter);
+    }, [onFilterChange]);
+
+    const filterButtons = [
+        { label: 'All', value: 'all' as FilterType },
+        { label: 'Active', value: 'active' as FilterType },
+        { label: 'Completed', value: 'completed' as FilterType }
+    ];
+
     return (
         <Box
-            direction="row"
-            align="center"
+            direction={isMobile ? 'column' : 'row'}
+            align={isMobile ? 'stretch' : 'center'}
             justify="between"
             pad="small"
             background="background-contrast"
@@ -22,30 +36,32 @@ export const TodoFilter: React.FC<TodoFilterProps> = ({
             margin={{ vertical: 'small' }}
             data-testid="todo-filter"
             border={{ color: 'dark-3', size: '1px' }}
+            gap="small"
         >
-            <Text size="small" data-testid="todo-count" color="text">
+            <Text 
+                size="small" 
+                data-testid="todo-count" 
+                color="text"
+                textAlign={isMobile ? 'center' : 'start'}
+            >
                 {formatTaskCount(activeCount)}
             </Text>
 
-            <Box direction="row" gap="small">
-                <FilterButton
-                    label="All"
-                    isActive={activeFilter === 'all'}
-                    onClick={() => onFilterChange('all')}
-                    testId="filter-all"
-                />
-                <FilterButton
-                    label="Active"
-                    isActive={activeFilter === 'active'}
-                    onClick={() => onFilterChange('active')}
-                    testId="filter-active"
-                />
-                <FilterButton
-                    label="Completed"
-                    isActive={activeFilter === 'completed'}
-                    onClick={() => onFilterChange('completed')}
-                    testId="filter-completed"
-                />
+            <Box 
+                direction="row" 
+                gap="small" 
+                justify={isMobile ? 'center' : 'start'}
+                wrap={true}
+            >
+                {filterButtons.map(({ label, value }) => (
+                    <FilterButton
+                        key={value}
+                        label={label}
+                        isActive={activeFilter === value}
+                        onClick={() => handleFilterChange(value)}
+                        testId={`filter-${value}`}
+                    />
+                ))}
             </Box>
 
             <Button
@@ -55,6 +71,7 @@ export const TodoFilter: React.FC<TodoFilterProps> = ({
                 size="small"
                 color="accent-2"
                 data-testid="clear-completed"
+                fill={isMobile ? 'horizontal' : false}
             />
         </Box>
     );

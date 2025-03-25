@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box, Heading } from 'grommet';
-import { TodoList } from './TodoList';
-import { TodoFilter } from './TodoFilter';
-import { TodoSettings } from './TodoSettings';
-import { useTodos } from '../hooks/useTodos';
-import { useSettings } from '../hooks/useSettings';
-import { useAutoDeleteCompleted } from '../hooks/useAutoDeleteCompleted';
-import { Todo } from '../types';
-import { TodoInput } from './TodoInput';
+import { TodoList } from '../TodoList';
+import { TodoFilter } from '../TodoFilter';
+import { TodoSettings } from '../TodoSettings';
+import { useTodos } from '../../hooks/useTodos';
+import { useSettings } from '../../hooks/useSettings';
+import { useAutoDeleteCompleted } from '../../hooks/useAutoDeleteCompleted';
+import { Todo } from '../../types';
+import { TodoInput } from '../TodoInput';
 
 export const TodoApp: React.FC = () => {
   const {
@@ -44,7 +44,7 @@ export const TodoApp: React.FC = () => {
     >
       <Box direction="row" justify="between" align="center" margin={{ bottom: "small" }}>
         <Heading level={2} margin="none" color="text-strong">
-          ToDo
+          Todo app
         </Heading>
         <TodoSettings
           settings={settings}
