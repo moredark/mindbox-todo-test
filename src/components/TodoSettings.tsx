@@ -19,6 +19,7 @@ export const TodoSettings: React.FC<TodoSettingsProps> = ({ settings, onToggleAu
         icon={<Configure color="text-strong" />}
         onClick={() => setShowSettings(!showSettings)}
         data-testid="settings-button"
+
       />
 
       {showSettings && settingsButtonRef.current && (
@@ -27,6 +28,7 @@ export const TodoSettings: React.FC<TodoSettingsProps> = ({ settings, onToggleAu
           align={{ top: 'bottom', right: 'right' }}
           onClickOutside={() => setShowSettings(false)}
           onEsc={() => setShowSettings(false)}
+          elevation="none"
         >
           <Box
             pad="medium"
