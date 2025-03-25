@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box, Heading } from 'grommet';
 import { TodoList } from './TodoList';
-import { TodoInput } from './TodoInput';
 import { TodoFilter } from './TodoFilter';
 import { TodoSettings } from './TodoSettings';
 import { useTodos } from '../hooks/useTodos';
 import { useSettings } from '../hooks/useSettings';
 import { useAutoDeleteCompleted } from '../hooks/useAutoDeleteCompleted';
 import { Todo } from '../types';
+import { TodoInput } from './TodoInput';
 
 export const TodoApp: React.FC = () => {
   const {
@@ -23,10 +23,10 @@ export const TodoApp: React.FC = () => {
   } = useTodos();
 
   const { settings, toggleAutoDeleteCompleted } = useSettings();
-  
+
   useAutoDeleteCompleted(
-    todos, 
-    settings.autoDeleteCompleted, 
+    todos,
+    settings.autoDeleteCompleted,
     clearCompleted
   );
 
@@ -54,10 +54,10 @@ export const TodoApp: React.FC = () => {
 
       <TodoInput onAddTodo={addTodo} />
 
-      <TodoList 
+      <TodoList
         todos={filteredTodos}
-        toggleTodo={toggleTodo} 
-        deleteTodo={deleteTodo} 
+        toggleTodo={toggleTodo}
+        deleteTodo={deleteTodo}
         isEmpty={isEmpty}
       />
 

@@ -1,12 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Box, Button, CheckBox, Drop, Text, Heading } from 'grommet';
 import { Configure } from 'grommet-icons';
-import { TodoSettings as TodoSettingsType } from '../types';
-
-interface TodoSettingsProps {
-  settings: TodoSettingsType;
-  onToggleAutoDelete: () => void;
-}
+import { TodoSettingsProps } from './types';
 
 export const TodoSettings: React.FC<TodoSettingsProps> = ({ settings, onToggleAutoDelete }) => {
   const [showSettings, setShowSettings] = useState(false);

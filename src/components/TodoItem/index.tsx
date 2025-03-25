@@ -1,24 +1,22 @@
 import React from 'react';
-import { CheckBox, Box, Button, Text } from 'grommet';
+import { CheckBox, Button } from 'grommet';
 import { Trash } from 'grommet-icons';
-import styled from 'styled-components';
-import { Todo } from '../types';
-
-interface TodoItemProps {
-  todo: Todo;
-  onToggle: (id: string) => void;
-  onDelete: (id: string) => void;
-}
-
-const TodoText = styled(Text)<{ completed: boolean }>`
-  text-decoration: ${props => props.completed ? 'line-through' : 'none'};
-  opacity: ${props => props.completed ? 0.7 : 1};
-  flex: 1;
-`;
+import { TodoItemProps } from './types';
+import { AnimatedTodoBox, TodoText } from './styles';
+import { ANIMATION_DURATION } from '../../constants/animations';
 
 export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }) => {
+  const [isRemoving, setIsRemoving] = React.useState(false);
+
+  const handleDelete = () => {
+    setIsRemoving(true);
+    setTimeout(() => {
+      onDelete(todo.id);
+    }, ANIMATION_DURATION.SHORT);
+  };
+
   return (
-    <Box
+    <AnimatedTodoBox
       direction="row"
       align="center"
       pad="small"
@@ -26,6 +24,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }) 
       background="background-contrast"
       round="small"
       border={{ color: 'dark-3', size: '1px' }}
+      className={isRemoving ? 'removing' : ''}
     >
       <CheckBox
         checked={todo.completed}
@@ -42,10 +41,10 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }) 
       </TodoText>
       <Button
         icon={<Trash size="small" color="status-critical" />}
-        onClick={() => onDelete(todo.id)}
+        onClick={handleDelete}
         plain
         data-testid={`todo-delete-${todo.id}`}
       />
-    </Box>
+    </AnimatedTodoBox>
   );
 };

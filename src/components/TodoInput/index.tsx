@@ -1,10 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { Box, TextInput, Button } from 'grommet';
 import { Add } from 'grommet-icons';
-
-interface TodoInputProps {
-  onAddTodo: (text: string) => void;
-}
+import { TodoInputProps } from './types';
 
 export const TodoInput: React.FC<TodoInputProps> = ({ onAddTodo }) => {
   const [text, setText] = useState('');
