@@ -9,9 +9,9 @@ interface TodoInputProps {
 export const TodoInput: React.FC<TodoInputProps> = ({ onAddTodo }) => {
   const [text, setText] = useState('');
 
-  const isValidText = useCallback((value: string): boolean => {
+  const isValidText = (value: string): boolean => {
     return value.trim().length > 0;
-  }, []);
+  };
 
   const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
@@ -19,16 +19,16 @@ export const TodoInput: React.FC<TodoInputProps> = ({ onAddTodo }) => {
       onAddTodo(text.trim());
       setText('');
     }
-  }, [text, onAddTodo, isValidText]);
+  }, [text, onAddTodo]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && isValidText(text)) {
       onAddTodo(text.trim());
       setText('');
     }
-  }, [text, onAddTodo, isValidText]);
+  }, [text, onAddTodo]);
 
-  const isValid = useMemo(() => isValidText(text), [text, isValidText]);
+  const isValid = useMemo(() => isValidText(text), [text]);
 
   return (
     <Box
@@ -51,8 +51,8 @@ export const TodoInput: React.FC<TodoInputProps> = ({ onAddTodo }) => {
       <Button
         icon={<Add color="light-1" />}
         type="submit"
-        primary
         disabled={!isValid}
+        primary
         data-testid="todo-submit"
       />
     </Box>

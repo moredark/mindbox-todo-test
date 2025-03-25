@@ -7,7 +7,6 @@ export interface Todo {
 
 export interface TodoSettings {
   autoDeleteCompleted: boolean;
-  // Другие настройки можно добавить здесь
 }
 
 export type FilterType = 'all' | 'active' | 'completed';

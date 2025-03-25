@@ -7,8 +7,14 @@ const defaultSettings: TodoSettings = {
   autoDeleteCompleted: false,
 };
 
+/**
+ * Хук для управления настройками приложения
+ * @returns {Object} Объект с настройками и методами управления
+ * @property {TodoSettings} settings - Текущие настройки
+ * @property {Function} updateSettings - Функция для обновления настроек
+ * @property {Function} toggleAutoDeleteCompleted - Функция для переключения автоудаления завершенных задач
+ */
 export const useSettings = () => {
-  // Загрузка настроек из localStorage при инициализации
   const loadSettings = (): TodoSettings => {
     const storedSettings = localStorage.getItem(SETTINGS_STORAGE_KEY);
     if (storedSettings) {
@@ -24,12 +30,10 @@ export const useSettings = () => {
 
   const [settings, setSettings] = useState<TodoSettings>(loadSettings);
 
-  // Сохранение настроек в localStorage при каждом изменении
   useEffect(() => {
     localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
   }, [settings]);
 
-  // Обновление настроек
   const updateSettings = (newSettings: Partial<TodoSettings>) => {
     setSettings(prevSettings => ({
       ...prevSettings,
@@ -37,7 +41,6 @@ export const useSettings = () => {
     }));
   };
 
-  // Переключение настройки автоудаления выполненных задач
   const toggleAutoDeleteCompleted = () => {
     updateSettings({
       autoDeleteCompleted: !settings.autoDeleteCompleted

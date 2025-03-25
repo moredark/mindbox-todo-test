@@ -1,4 +1,4 @@
-import { useState, useEffect,  useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Todo, FilterType } from '../types';
 
 const STORAGE_KEY = 'todos';
@@ -15,7 +15,7 @@ export const useTodos = () => {
           return value;
         });
       } catch (e) {
-        console.error('Ошибка при загрузке задач из localStorage:', e);
+        console.error('Error with localStorage:', e);
         return [];
       }
     }
@@ -33,6 +33,7 @@ export const useTodos = () => {
     if (text.trim() === '') return;
 
     const newTodo: Todo = {
+      // В реальном приложении ID будет приходить с бэкенда
       id: Date.now().toString(),
       text: text.trim(),
       completed: false,
