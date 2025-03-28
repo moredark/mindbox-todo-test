@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Todo, FilterType } from '../types';
 
 const STORAGE_KEY = 'todos';
@@ -43,21 +43,21 @@ export const useTodos = () => {
     setTodos(prevTodos => [...prevTodos, newTodo]);
   };
 
-  const toggleTodo = (id: string) => {
+  const toggleTodo = useCallback((id: string) => {
     setTodos(prevTodos =>
       prevTodos.map(todo =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
       )
     );
-  };
+  }, [setTodos]);
 
-  const deleteTodo = (id: string) => {
+  const deleteTodo = useCallback((id: string) => {
     setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
-  };
+  }, [setTodos]);
 
-  const clearCompleted = () => {
+  const clearCompleted = useCallback(() => {
     setTodos(prevTodos => prevTodos.filter(todo => !todo.completed));
-  }
+  }, [setTodos]);
 
   const activeTodoCount = useMemo(() => {
     return todos.filter(todo => !todo.completed).length;

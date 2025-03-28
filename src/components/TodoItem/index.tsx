@@ -5,7 +5,7 @@ import { TodoItemProps } from './types';
 import { AnimatedTodoBox, TodoText } from './styles';
 import { ANIMATION_DURATION } from '../../constants/animations';
 
-export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }) => {
+export const TodoItem: React.FC<TodoItemProps> = React.memo(({ todo, onToggle, onDelete }) => {
   const [isRemoving, setIsRemoving] = React.useState(false);
 
   const handleDelete = () => {
@@ -31,7 +31,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }) 
         onChange={() => onToggle(todo.id)}
         data-testid={`todo-checkbox-${todo.id}`}
       />
-      <TodoText 
+      <TodoText
         completed={todo.completed}
         data-testid={`todo-text-${todo.id}`}
         color={todo.completed ? "dark-5" : "text"}
@@ -47,4 +47,4 @@ export const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }) 
       />
     </AnimatedTodoBox>
   );
-};
+});

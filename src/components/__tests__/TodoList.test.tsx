@@ -87,11 +87,9 @@ describe('TodoList', () => {
 
     const deleteButton = screen.getByTestId(`todo-delete-${mockTodos[0].id}`);
     fireEvent.click(deleteButton);
-    
-    // Запускаем все таймеры
+
     jest.runAllTimers();
-    
-    // Ждем выполнения асинхронной операции
+
     await waitFor(() => {
       expect(defaultProps.deleteTodo).toHaveBeenCalledWith(mockTodos[0].id);
     });
